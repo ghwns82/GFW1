@@ -46,7 +46,7 @@ class AppFriend(Resource):
 
         for i,v in enumerate(result, 1):
             if not v['profilePhoto']:
-                v['profilePhoto'] = config.baseUrl + '/service/images/default_profile.jpg'
+                v['profilePhoto'] = config.baseUrl + '/service/image/default_profile.jpg'
             v['rank'] = i
 
         return {"status" : "success", "ranking" : result}
