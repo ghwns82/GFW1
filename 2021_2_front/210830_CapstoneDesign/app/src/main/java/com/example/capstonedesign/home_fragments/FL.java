@@ -44,6 +44,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -51,12 +52,12 @@ import retrofit2.Response;
 public class FL extends Fragment { //친구수 받아오는것 구현 필요
     SharedPreferences sharedPreferences;
     private initMyApi initMyApi;
-    ImageView profile_myphoto;
+    CircleImageView profile_myphoto;
     TextView profile_name, profile_people, profile_walk;
     TextView profile_one_name, profile_one_walk;
     TextView profile_two_name, profile_two_walk;
     TextView profile_three_name, profile_three_walk;
-    ImageView profile_one_photo, profile_two_photo, profile_three_photo;
+    CircleImageView profile_one_photo, profile_two_photo, profile_three_photo;
     //ArrayList<Ranking> ranking;
     LinearLayout parent_layout;
 
@@ -203,7 +204,7 @@ public class FL extends Fragment { //친구수 받아오는것 구현 필요
                             mlayout.topMargin = 20;
                             layout.setLayoutParams(mlayout);
 
-                            ImageView get_image = new ImageView(getContext());
+                            CircleImageView get_image = new CircleImageView(getContext());
                             Glide.with(getActivity()).load(result.getRanking().get(i).getProfilePhoto()).into(get_image);
                             int imgwidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,60,getResources().getDisplayMetrics());
                             int imgheight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,60,getResources().getDisplayMetrics());
