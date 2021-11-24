@@ -19,7 +19,7 @@
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp">
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_myphoto"
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -122,7 +122,7 @@
             android:gravity="bottom"
             android:orientation="vertical"
             android:layout_weight="1">
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile_two_photo"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
@@ -178,7 +178,7 @@
             android:gravity="bottom"
             android:orientation="vertical"
             android:layout_weight="1">
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile_one_photo"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
@@ -233,7 +233,7 @@
             android:gravity="bottom"
             android:orientation="vertical"
             android:layout_weight="1">
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile_three_photo"
                 android:layout_width="60dp"
                 android:layout_height="60dp"

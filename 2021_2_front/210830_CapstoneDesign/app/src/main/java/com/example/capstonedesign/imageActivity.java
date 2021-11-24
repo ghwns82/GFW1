@@ -33,6 +33,7 @@ import java.net.URL;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -42,7 +43,7 @@ public class imageActivity extends AppCompatActivity {
     private EditText update_name;
     Spinner update_house, update_year_y, update_year_m, update_year_d;
     Button complete;
-    private ImageView person0;
+    private CircleImageView person0;
     private initMyApi initMyApi;
     SharedPreferences sharedPreferences1;
     ArrayAdapter<CharSequence> adspin, adspin1, adspin2, adspin3;
