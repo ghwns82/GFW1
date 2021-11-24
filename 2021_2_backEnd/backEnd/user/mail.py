@@ -3,6 +3,7 @@
 from flask import request
 from flask_restx import Namespace, Resource, fields
 from flask_request_validator import *
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt
 import database, swaggerModel
 
 Email = Namespace(name = 'Email', description="사용자 계정 메일을 검색하는 API")
@@ -13,6 +14,7 @@ SuccessResponse = Email.inherit('3-2. Email Not_registed model ', swaggerModel.B
     })
 FailedResponse = Email.inherit('3-4. Email is in DB json model', swaggerModel.BaseFailedModel, {
     "message" : fields.String(description="message", example="The email registered"),
+    "access token" : fields.String(description="token", example="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTYzNzczOTMwMywianRpIjoiNDE0OTRiOGItYzljNi00MmFhLWI2ZTAtMDYwM2NiYWUzZWIyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6InRlc3QzQGdtYWlsLmNvbSIsIm5iZiI6MTYzNzczOTMwMywiZXhwIjoxNjM4NjAzMzAzfQ.JTl07apEsPmbGtCoa6UeUEwEAh3DGyHfbFfMcLLGldQ"),
     })
 
 # 이메일이 현재 db에 존재하는지 확인해주는 클래스
@@ -33,4 +35,4 @@ class emailAuth(Resource):
         if data is None:
             return {"status":"Success", "message": "Email not registered"}, 200
         else:
-            return {"status":"Failed", "message":"The email registered"}, 400
+            return {"status":"Failed", "message":"The email registered", "access token":create_access_token(userEmail)}, 400
