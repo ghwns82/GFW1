@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -22,7 +23,7 @@
                     android:id="@+id/tabs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/background_light"
+                    android:background="@color/color2"
                     android:elevation="1dp"
                     app:tabGravity="fill"
                     app:tabMode="fixed"
@@ -34,8 +35,9 @@
                 android:id="@+id/fa_viewPager2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_above="@id/spring_dots_indicator"
                 android:layout_below="@id/appbarLayout"
-                android:layout_above="@id/spring_dots_indicator"/>
+                android:background="@color/white" />
 
             <com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator
                 android:id="@+id/spring_dots_indicator"
@@ -45,11 +47,11 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="10dp"
                 app:dampingRatio="0.5"
-                app:dotsColor="@color/white"
+                app:dotsColor="@color/skyblue"
                 app:dotsCornerRadius="2dp"
                 app:dotsSize="16dp"
                 app:dotsSpacing="6dp"
-                app:dotsStrokeColor="@color/teal_700"
+                app:dotsStrokeColor="@color/skyblue"
                 app:dotsStrokeWidth="2dp"
                 app:stiffness="300" />
 
@@ -58,8 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                />
+                android:layout_centerHorizontal="true" />
         </RelativeLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </RelativeLayout>
