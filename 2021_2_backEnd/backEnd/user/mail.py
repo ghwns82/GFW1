@@ -12,7 +12,7 @@ SuccessResponse = Email.inherit('3-2. Email Not_registed model ', swaggerModel.B
     
     "message" : fields.String(description="message", example="Email not registered")
     })
-FailedResponse = Email.inherit('3-4. Email is in DB json model', swaggerModel.BaseFailedModel, {
+SuccessResponse2 = Email.inherit('3-4. Email is in DB json model', swaggerModel.BaseSuccessModel, {
     "message" : fields.String(description="message", example="The email registered"),
     "access token" : fields.String(description="token", example="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTYzNzczOTMwMywianRpIjoiNDE0OTRiOGItYzljNi00MmFhLWI2ZTAtMDYwM2NiYWUzZWIyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6InRlc3QzQGdtYWlsLmNvbSIsIm5iZiI6MTYzNzczOTMwMywiZXhwIjoxNjM4NjAzMzAzfQ.JTl07apEsPmbGtCoa6UeUEwEAh3DGyHfbFfMcLLGldQ"),
     })
@@ -23,7 +23,7 @@ FailedResponse = Email.inherit('3-4. Email is in DB json model', swaggerModel.Ba
 class emailAuth(Resource):
     @Email.doc(params={'userEmail' : '유저의 이메일'})
     @Email.response(200, 'Success(등록되지 않은 이메일)', SuccessResponse)
-    @Email.response(400, 'Failed(이미 등록된 이메일 )', FailedResponse)
+    @Email.response(201, 'Failed(이미 등록된 이메일 )', SuccessResponse2)
     def get(self, userEmail):
         """이메일이 현재 DB에 존재하는지 확인한다."""
         db = database.DBClass()
@@ -35,4 +35,4 @@ class emailAuth(Resource):
         if data is None:
             return {"status":"Success", "message": "Email not registered"}, 200
         else:
-            return {"status":"Failed", "message":"The email registered", "access token":create_access_token(userEmail)}, 400
+            return {"status":"Success", "message":"The email registered", "access token":create_access_token(userEmail)}, 201
