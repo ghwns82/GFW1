@@ -63,12 +63,9 @@ public class Email extends AppCompatActivity {
         call.enqueue(new Callback<ValidateResponse>() {
             @Override
             public void onResponse(Call<ValidateResponse> call, Response<ValidateResponse> response) {
-                if(response.isSuccessful()) {
+                if(response.code() == 201) {
                     ValidateResponse result = response.body();
                     String status = result.getStatus();
-                    Toast.makeText(getApplicationContext(),"등록된 이메일이 아닙니다.",Toast.LENGTH_SHORT).show();
-                } else {
-                    ValidateResponse result = response.body();
                     String token = result.getToken();
                     PreferenceManager.setString(getApplicationContext(),"token",token);
                     editor.putString("token", token);
@@ -77,6 +74,8 @@ public class Email extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                     Toast.makeText(getApplicationContext(),"등록된 이메일이 맞습니다.",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(),"등록된 이메일이 아닙니다.",Toast.LENGTH_SHORT).show();
                 }
             }
 
