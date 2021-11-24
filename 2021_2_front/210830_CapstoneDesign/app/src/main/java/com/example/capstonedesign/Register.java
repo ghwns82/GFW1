@@ -187,7 +187,7 @@ public class Register extends AppCompatActivity {
         call.enqueue(new Callback<ValidateResponse>() {
             @Override
             public void onResponse(Call<ValidateResponse> call, Response<ValidateResponse> response) {
-                if(response.isSuccessful() && return_email==true) { //                                                                      ****오류있음!*****
+                if(response.code() == 200 && return_email==true) { //                                                                      ****오류있음!*****
                     ValidateResponse result = response.body();
                     String status = result.getStatus();
                     Toast.makeText(getApplicationContext(),"사용할 수 있는 이메일입니다.",Toast.LENGTH_SHORT).show();
