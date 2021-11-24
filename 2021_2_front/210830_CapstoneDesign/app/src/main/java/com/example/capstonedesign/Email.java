@@ -1,6 +1,7 @@
 package com.example.capstonedesign;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -25,6 +26,8 @@ public class Email extends AppCompatActivity {
     private EditText email;
     private initMyApi initMyApi;
     private Button check;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,9 @@ public class Email extends AppCompatActivity {
     public void CheckEmail() {
         String userEmail = email.getText().toString().trim();
 
+        sharedPreferences = getSharedPreferences("email", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+
         RetrofitClient retrofitClient = RetrofitClient.getInstance();
         initMyApi = RetrofitClient.getRetrofitInterface();
 
@@ -62,6 +68,11 @@ public class Email extends AppCompatActivity {
                     String status = result.getStatus();
                     Toast.makeText(getApplicationContext(),"등록된 이메일이 아닙니다.",Toast.LENGTH_SHORT).show();
                 } else {
+                    ValidateResponse result = response.body();
+                    String token = result.getToken();
+                    PreferenceManager.setString(getApplicationContext(),"token",token);
+                    editor.putString("token", token);
+                    editor.commit();
                     Intent intent = new Intent(getApplicationContext(), Password.class);
                     startActivity(intent);
                     finish();
