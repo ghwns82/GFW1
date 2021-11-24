@@ -350,8 +350,15 @@ public class FL extends Fragment { //친구수 받아오는것 구현 필요
         AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
         dialog.setTitle(title);
 
+        final int[] index = new int[1];
+
         // 제목 옆에 들어갈 이이콘 설정 : dialog.setIcon();
-        dialog.setSingleChoiceItems(presetMsg, 0,null);
+        dialog.setSingleChoiceItems(presetMsg, 0, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                index[0] = which;
+            }
+        });
         dialog.setPositiveButton("보내기", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -359,7 +366,7 @@ public class FL extends Fragment { //친구수 받아오는것 구현 필요
                 RetrofitClient retrofitClient = RetrofitClient.getNewInstance(getActivity().getApplicationContext());
                 initMyApi initMyApi = RetrofitClient.getNewRetrofitInterface();
 
-                FcmMessageRequest fcmMessageRequest = new FcmMessageRequest(userEmail,name+"님의 "+title,presetMsg[which]);
+                FcmMessageRequest fcmMessageRequest = new FcmMessageRequest(userEmail,profile_name.getText()+"님의 "+title,presetMsg[index[0]]);
 
                 initMyApi.FcmMessage(fcmMessageRequest).enqueue(new Callback<FcmMessageResponse>() {
                     @Override
@@ -370,7 +377,6 @@ public class FL extends Fragment { //친구수 받아오는것 구현 필요
                             String message = result.getMessage();
 
                             Log.d("Messaging_status",status);
-                            Log.d("Messaging_message",message);
                         }
                     }
                     @Override

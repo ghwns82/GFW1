@@ -95,10 +95,8 @@ public class FR_ListAdapter extends BaseAdapter {
                     initMyApi.CancelFR_Request(request).enqueue(new Callback<CancelFR_Response>() {
                         @Override
                         public void onResponse(Call<CancelFR_Response> call, Response<CancelFR_Response> response) {
-                            if(response.isSuccessful()){
-                                arrayList.remove(position);
-                                notifyDataSetChanged();
-                            }
+                            arrayList.remove(position);
+                            notifyDataSetChanged();
                         }
                         @Override
                         public void onFailure(Call<CancelFR_Response> call, Throwable t) {}
@@ -115,10 +113,8 @@ public class FR_ListAdapter extends BaseAdapter {
                     initMyApi.ProceedFR_Request(request).enqueue(new Callback<ProceedFR_Response>() {
                         @Override
                         public void onResponse(Call<ProceedFR_Response> call, Response<ProceedFR_Response> response) {
-                            if(response.isSuccessful()){
-                                arrayList.remove(position);
-                                notifyDataSetChanged();
-                            }
+                            arrayList.remove(position);
+                            notifyDataSetChanged();
                         }
                         @Override
                         public void onFailure(Call<ProceedFR_Response> call, Throwable t) {}
@@ -133,10 +129,8 @@ public class FR_ListAdapter extends BaseAdapter {
                     initMyApi.ProceedFR_Request(request).enqueue(new Callback<ProceedFR_Response>() {
                         @Override
                         public void onResponse(Call<ProceedFR_Response> call, Response<ProceedFR_Response> response) {
-                            if(response.isSuccessful()){
-                                arrayList.remove(position);
-                                notifyDataSetChanged();
-                            }
+                            arrayList.remove(position);
+                            notifyDataSetChanged();
                         }
                         @Override
                         public void onFailure(Call<ProceedFR_Response> call, Throwable t) {}

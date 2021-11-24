@@ -32,8 +32,10 @@ public class LineChartSetter {
 
         YAxis yAxis_left = lineChart.getAxisLeft();
         YAxis yAxis_right = lineChart.getAxisRight();
+        yAxis_right.setDrawLabels(false);
+        yAxis_right.setEnabled(false);
         yAxis_left.setAxisMinimum(0.0f);
-        yAxis_right.setAxisMinimum(0.0f);
+
 
         lineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
 
