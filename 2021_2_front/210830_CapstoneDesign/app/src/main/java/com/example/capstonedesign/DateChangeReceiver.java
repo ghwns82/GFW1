@@ -30,6 +30,7 @@ public class DateChangeReceiver extends BroadcastReceiver {
         myGoogleFit.setFitnessOptions(fitnessOptions)
                 .setAppContext(context.getApplicationContext());
 
-        myGoogleFit.subscription(dataType,context);
+        myGoogleFit.subscription(dataType,context)
+                .dataToServer(context);
     }
 }

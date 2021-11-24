@@ -56,7 +56,7 @@ public class FS extends Fragment {
     public static TextView[] textView_actData;
 
     /** Listener 대체용 Timer **/
-    Timer scheduler = new Timer();
+    Timer scheduler = new Timer();;
     TimerTask task;
 
     public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
@@ -236,6 +236,7 @@ public class FS extends Fragment {
         dialog.show();
     }
     public void showMyMenuDialog(OnDataPointListener[] ListenerManager){
+
         AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
 
         //다이얼로그창 제목.
@@ -267,14 +268,6 @@ public class FS extends Fragment {
                 PreferenceManager.setBooleanArray(mContext, myMenu_name, myMenu_check);
                 myMenu_check = PreferenceManager.getBooleanArray(mContext, myMenu_name, myMenu_length);
 
-                /** 여기서 MyMenu에 들어갈 보여줄 View가 수정.
-                 * Tasks
-                 * 1. 필요없는 데이터 타입 Listener 제거.
-                 * 2. 필요없는 데이터 타입 unsubscribe.
-                 * 3. 필요한 데이터 타입 다시 subscribe
-                 * 4. 필요한 데이터 타입 DailyData 다시 가져오기.
-                 * 5. 필요한 데이터 타입 Listener 등록.
-                 * **/
                 int dataType=1;
                 for(int count=0;count<myMenu_length;count++){
 
@@ -282,11 +275,10 @@ public class FS extends Fragment {
                         dataType += 1<<(count+1);
                         Log.d("MyMenuEdit","checking");
                         if(!myMenu_check[count]){
-
                             // Step 1.
                             scheduler.cancel();
                             // Step 2.
-                            myGoogleFit.unsubscription(dataType,getContext());
+                            myGoogleFit.unsubscription(dataType,mContext);
                             textView_actData[count].setVisibility(TextView.GONE);
                         }else{
                             // Step 3 & 4
@@ -295,12 +287,15 @@ public class FS extends Fragment {
                         }
                     }
                 }
+
+                scheduler = new Timer();
+
                 int finalDataType = dataType;
                 task = new TimerTask() {
                     @Override
                     public void run() {
                         Log.d("TimerTask","Tick & Tok");
-                        myGoogleFit.updateDailyTotal(getContext(), finalDataType,ActDatas,textView_actData,current_step,progressBar);
+                        myGoogleFit.updateDailyTotal(mContext, finalDataType,ActDatas,textView_actData,current_step,progressBar);
                     }
                 };
                 scheduler.schedule(task,0,60000);

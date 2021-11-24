@@ -63,6 +63,7 @@ public class MyGoogleFit {
     private static MyGoogleFit myGoogleFit = null;
     private static Context appContext = null;
     private static FitnessOptions fitnessOptions = null;
+    private static String TAG1 = "DataToServer";
 
     // TAGs
     private static final String _TAG_ = "MyGoogleFit";
@@ -219,9 +220,11 @@ public class MyGoogleFit {
         lineChart.invalidate();
     }
 
-    public void dataToServer(int dataType, Context cur_context,float[] result){
+    public void dataToServer(Context cur_context){
         ZonedDateTime endTime = LocalDate.now().atStartOfDay(ZoneId.systemDefault());
         ZonedDateTime startTime = endTime.minusDays(1);
+
+        Log.d(TAG1,"in");
 
          DataReadRequest dataReadRequests = new DataReadRequest.Builder()
                  .aggregate(DATA_TYPE[0])
@@ -246,27 +249,28 @@ public class MyGoogleFit {
                                     for(DataSet dataset : bucket.getDataSets()){
                                         Log.d("DataSet reading :", "Success");
                                         for(DataPoint dp : dataset.getDataPoints()){
-                                            Log.i("Loaded Data","Data point:");
-                                            Log.i("Loaded Data","\tType: "+dp.getDataType().getName());
-                                            Log.i("Loaded Data","\tStart: "+dp.getStartTime(TimeUnit.DAYS));
-                                            Log.i("Loaded Data","\tEnd: " + dp.getEndTime(TimeUnit.DAYS));
+                                            Log.i(TAG1+" Loaded Data","Data point:");
+                                            Log.i(TAG1+" Loaded Data","\tType: "+dp.getDataType().getName());
+                                            Log.i(TAG1+" Loaded Data","\tStart: "+dp.getStartTime(TimeUnit.DAYS));
+                                            Log.i(TAG1+" Loaded Data","\tEnd: " + dp.getEndTime(TimeUnit.DAYS));
                                             for (Field field : dp.getDataType().getFields()) {
+                                                Log.d(TAG1+" Field name", field.getName());
                                                 switch(field.getName()){
-                                                    case "step":
+                                                    case "steps":
                                                         result[0] = dp.getValue(field).asInt();
-                                                        Log.i("Loaded Data", "\tField: " + field.getName() +" Value: " + result[0]);
+                                                        Log.i(TAG1+ " Loaded Data", "\tField: " + field.getName() +" Value: " + result[0]);
                                                         break;
                                                     case "calories":
                                                         result[1] = dp.getValue(field).asFloat();
-                                                        Log.i("Loaded Data", "\tField: " + field.getName() +" Value: " + result[0]);
+                                                        Log.i(TAG1+" Loaded Data", "\tField: " + field.getName() +" Value: " + result[1]);
                                                         break;
                                                     case "distance":
                                                         result[2] = dp.getValue(field).asFloat();
-                                                        Log.i("Loaded Data", "\tField: " + field.getName() +" Value: " + result[0]);
+                                                        Log.i(TAG1+" Loaded Data", "\tField: " + field.getName() +" Value: " + result[2]);
                                                         break;
                                                     case "duration":
                                                         result[3] = dp.getValue(field).asInt();
-                                                        Log.i("Loaded Data", "\tField: " + field.getName() +" Value: " + result[0]);
+                                                        Log.i(TAG1+" Loaded Data", "\tField: " + field.getName() +" Value: " + result[3]);
                                                         break;
                                                     default:
                                                         Log.d("dataToServer","Switch문에서 문제가 있는것 같습니다.");
@@ -278,8 +282,8 @@ public class MyGoogleFit {
                                 // 여기서 서버로 데이터 전송.
                                 DDTSRequest ddtsRequest = new DDTSRequest(result[0],result[1],result[2],result[3]);
 
-                                RetrofitClient retrofitClient = RetrofitClient.getInstance();
-                                initMyApi initMyApi = RetrofitClient.getRetrofitInterface();
+                                RetrofitClient retrofitClient = RetrofitClient.getNewInstance(appContext);
+                                initMyApi initMyApi = RetrofitClient.getNewRetrofitInterface();
                                 initMyApi.getDDTS(ddtsRequest).enqueue(new Callback<DDTSResponse>() {
                                     @Override
                                     public void onResponse(Call<DDTSResponse> call, Response<DDTSResponse> response) {
@@ -458,7 +462,7 @@ public class MyGoogleFit {
             case 0 :
                 return Math.round(real_data[index]) + "걸음";
             case 1 :
-                return "소모 칼로리 : " + Math.round(real_data[index]) + " Kcal";
+                return "소모 칼로리 : " + Math.round(real_data[index]) + " cal";
             case 2 :
                 return "이동 거리 : " + Math.round(real_data[index]) + " m";
             case 3 :
@@ -468,7 +472,6 @@ public class MyGoogleFit {
         }
 
     }
-
 
     public MyGoogleFit addListener(Context cur_context,int dataType, OnDataPointListener[] listenerManager,float[] real_data, TextView[] textView, int myMenu_length) {
         // Listener should be registered one at a time.
