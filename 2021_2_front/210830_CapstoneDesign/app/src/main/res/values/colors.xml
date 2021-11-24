@@ -15,4 +15,6 @@
     <color name="whitepink">#F8F1E9</color>
     <color name="input_register_hint">#999999</color>
     <color name="red">#FF0000</color>
+    <color name="color1">#DEEDF0</color>
+    <color name="color2">#B5EAEA</color>
 </resources>
