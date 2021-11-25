@@ -23,7 +23,7 @@ SuccessResponse2 = Email.inherit('3-4. Email is in DB json model', swaggerModel.
 class emailAuth(Resource):
     @Email.doc(params={'userEmail' : '유저의 이메일'})
     @Email.response(200, 'Success(등록되지 않은 이메일)', SuccessResponse)
-    @Email.response(201, 'Failed(이미 등록된 이메일 )', SuccessResponse2)
+    @Email.response(201, 'Success(이미 등록된 이메일 )', SuccessResponse2)
     def get(self, userEmail):
         """이메일이 현재 DB에 존재하는지 확인한다."""
         db = database.DBClass()

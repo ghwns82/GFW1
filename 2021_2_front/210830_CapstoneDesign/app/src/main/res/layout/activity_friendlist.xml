@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     tools:context=".FriendListActivity">
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,8 +14,9 @@
         <ImageView
             android:id="@+id/friendlist_btn_back"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:layout_weight="1"
+            android:layout_marginTop="5dp"
             android:src="@drawable/back_button"
             android:paddingRight="5dp"/>
 
@@ -26,7 +28,8 @@
             android:layout_weight="3"
             android:text="친구 목록"
             android:textAlignment="center"
-            android:textSize="30dp" />
+            android:textSize="30dp"
+            android:textColor="#020202"/>
 
         <Space
             android:layout_width="0dp"

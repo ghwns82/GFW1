@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <Button
@@ -19,7 +20,7 @@
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp">
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_myphoto"
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -37,13 +38,14 @@
                     android:orientation="vertical"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="10dp">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:textSize="18sp"
+                        android:text="이름 : "
                         android:textColor="@color/black"
-                        android:text="이름 : " />
+                        android:textSize="18sp" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -121,7 +123,7 @@
             android:gravity="bottom"
             android:orientation="vertical"
             android:layout_weight="1">
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile_two_photo"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
@@ -177,7 +179,7 @@
             android:gravity="bottom"
             android:orientation="vertical"
             android:layout_weight="1">
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile_one_photo"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
@@ -232,7 +234,7 @@
             android:gravity="bottom"
             android:orientation="vertical"
             android:layout_weight="1">
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile_three_photo"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
@@ -282,16 +284,25 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="190dp">
-        <LinearLayout
-            android:id="@+id/parent_layout"
+        android:layout_height="match_parent">
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_above="@+id/bottomTabGap">
+            <LinearLayout
+                android:id="@+id/parent_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+            </LinearLayout>
 
-        </LinearLayout>
-
-    </ScrollView>
+        </ScrollView>
+        <Space
+            android:id="@+id/bottomTabGap"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
 </LinearLayout>

@@ -35,12 +35,19 @@ import retrofit2.Response;
 
 public class FriendListActivity extends AppCompatActivity {
 
+    private boolean first_time = true;
+    private ListView listView;
+    private RetrofitClient retrofitClient;
+    private initMyApi initMyApi;
+    private MyFriendListAdapter myFriendListAdapter;
+    private ArrayList<Friend> arraylist;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friendlist);
 
-        ListView listView = (ListView) findViewById(R.id.friendList_listView);
+        listView = (ListView) findViewById(R.id.friendList_listView);
         ImageView btn_friendReqest = findViewById(R.id.btn_friend_request_list);
         ImageView btn_addFriend = findViewById(R.id.btn_add_friend);
         ImageView btn_back = findViewById(R.id.friendlist_btn_back);
@@ -58,8 +65,6 @@ public class FriendListActivity extends AppCompatActivity {
         dialogAF.setContentView(R.layout.dialog_addfriend);
 
         /** 다이얼로그 세팅 **/
-
-
         btn_addFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,12 +79,12 @@ public class FriendListActivity extends AppCompatActivity {
         });
 
         /** Adapter와 ArrayList 설정 **/
-        ArrayList<Friend> arrayList = new ArrayList<Friend>();
+        arraylist = new ArrayList<Friend>();
 
-        RetrofitClient retrofitClient = RetrofitClient.getNewInstance(getApplicationContext());
-        initMyApi initMyApi = RetrofitClient.getNewRetrofitInterface();
+        retrofitClient = RetrofitClient.getNewInstance(getApplicationContext());
+        initMyApi = RetrofitClient.getNewRetrofitInterface();
         
-        final MyArrayAdapter[] myArrayAdapter = new MyArrayAdapter[1];
+        myFriendListAdapter = new MyFriendListAdapter(getBaseContext(),arraylist);
         initMyApi.getFriendListResponse().enqueue(new Callback<FriendListResponse>() {
             @Override
             public void onResponse(Call<FriendListResponse> call, Response<FriendListResponse> response) {
@@ -89,10 +94,9 @@ public class FriendListActivity extends AppCompatActivity {
                     String status_msg = result.getStatus();
                     Log.d("Getting friendsList",status_msg);
 
+                    arraylist.clear();
                     List<Friend> friendsList = result.getFriendList();
-                    arrayList.addAll(friendsList);
-
-                    final MyFriendListAdapter myFriendListAdapter = new MyFriendListAdapter(getBaseContext(),arrayList);
+                    arraylist.addAll(friendsList);
 
                     listView.setAdapter(myFriendListAdapter);
                 }
@@ -114,31 +118,54 @@ public class FriendListActivity extends AppCompatActivity {
 
         listView.setAdapter(frListAdapter[0]);
 
-        // Retrofit으로 나한테 온 요청 확인.
         RetrofitClient retrofitClient = RetrofitClient.getNewInstance(getApplicationContext());
         initMyApi initMyApi = RetrofitClient.getNewRetrofitInterface();
 
-        initMyApi.FriendRequestList().enqueue(new Callback<FriendRequestListResponse>() {
-            @Override
-            public void onResponse(Call<FriendRequestListResponse> call, Response<FriendRequestListResponse> response) {
-                if(response.isSuccessful()){
-                    FriendRequestListResponse result = response.body();
-                    List<Friend> list = result.getMyRequestList();
-                    String status = result.getStatus();
+        if(tablayout.getSelectedTabPosition() == 0){
+            // 내가 한 요청
+            initMyApi.FriendRequestList().enqueue(new Callback<FriendRequestListResponse>() {
+                @Override
+                public void onResponse(Call<FriendRequestListResponse> call, Response<FriendRequestListResponse> response) {
+                    if(response.isSuccessful()){
+                        FriendRequestListResponse result = response.body();
+                        List<Friend> list = result.getMyRequestList();
+                        String status = result.getStatus();
 
-                    arrayList.clear();
+                        arrayList.clear();
 
-                    arrayList.addAll(list);
+                        arrayList.addAll(list);
 
-                    frListAdapter[0].setListType(FR_ListAdapter.REQUESTING);
-                    frListAdapter[0].notifyDataSetChanged();
+                        frListAdapter[0].setListType(FR_ListAdapter.REQUESTING);
+                        frListAdapter[0].notifyDataSetChanged();
+                    }
                 }
-            }
-            @Override
-            public void onFailure(Call<FriendRequestListResponse> call, Throwable t) {
-            }
-        });
+                @Override
+                public void onFailure(Call<FriendRequestListResponse> call, Throwable t) {
+                }
+            });
+        }else{
+            // 내가 받은 요청
+            initMyApi.FriendRequestedList().enqueue(new Callback<FriendRequestedListResponse>() {
+                @Override
+                public void onResponse(Call<FriendRequestedListResponse> call, Response<FriendRequestedListResponse> response) {
+                    if(response.isSuccessful()){
+                        FriendRequestedListResponse result = response.body();
+                        List<Friend> list = result.getFriendsRequestedList();
+                        String status = result.getStatus();
 
+                        arrayList.clear();
+
+                        arrayList.addAll(list);
+
+                        frListAdapter[0].setListType(FR_ListAdapter.REQUESTED);
+                        frListAdapter[0].notifyDataSetChanged();
+                    }
+                }
+                @Override
+                public void onFailure(Call<FriendRequestedListResponse> call, Throwable t) {
+                }
+            });
+        }
 
         tablayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -236,4 +263,41 @@ public class FriendListActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        first_time = false;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if(!first_time){
+            retrofitClient = RetrofitClient.getNewInstance(getApplicationContext());
+            initMyApi = RetrofitClient.getNewRetrofitInterface();
+
+            myFriendListAdapter = new MyFriendListAdapter(getBaseContext(),arraylist);
+            initMyApi.getFriendListResponse().enqueue(new Callback<FriendListResponse>() {
+                @Override
+                public void onResponse(Call<FriendListResponse> call, Response<FriendListResponse> response) {
+                    if(response.isSuccessful()){
+                        FriendListResponse result = response.body();
+
+                        String status_msg = result.getStatus();
+                        Log.d("Getting friendsList",status_msg);
+
+                        arraylist.clear();
+                        List<Friend> friendsList = result.getFriendList();
+                        arraylist.addAll(friendsList);
+
+                        listView.setAdapter(myFriendListAdapter);
+                    }
+                }
+                @Override
+                public void onFailure(Call<FriendListResponse> call, Throwable t) {
+                }
+            });
+        }
+    }
 }

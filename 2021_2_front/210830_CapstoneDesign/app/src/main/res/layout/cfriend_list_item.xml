@@ -1,26 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/whitepink"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:descendantFocusability="blocksDescendants">
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/cmp_friendItem_profile_img"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_launcher_background" />
+        android:src="@drawable/person"
+        android:layout_margin="10dp"/>
 
     <TextView
         android:id="@+id/cfriend_list_Item_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Name"/>
+        android:layout_marginLeft="10dp"
+        android:text="Name"
+        android:layout_gravity="center"
+        android:textSize="20dp"/>
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
     <CheckBox
         android:id="@+id/cfriend_list_Item_check_box"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|right"
+        android:layout_marginRight="20dp"
         android:clickable="false"
         android:focusable="false"
-        android:focusableInTouchMode="false"/>
+        android:focusableInTouchMode="false" />
 
 </LinearLayout>
